@@ -1,11 +1,15 @@
 from playwright.sync_api import Page
 import csv
 
+# defining the required playwright function
 def test_kumarijob(page : Page):
+
+    # creating a new csv file for the data
     with open(r"C:\Users\bimal\OneDrive\Documents\Thing\The project\JobMeasure\src\scrapper\raw_data\kumarijob_raw.csv","w",newline="") as file:
         writer = csv.writer(file)
         writer.writerow(["Job_title","Company_name","Job_location","Salary","Job_time"])
 
+        # extracting the data from kumarijob
         page.goto("https://www.kumarijob.com/jobs-in-nepal/it-programming-development-jobs-in-nepal",timeout=60000)
         print(page.title())
         cards = page.locator("div.job-container.bg-white.p-4").all()
@@ -18,6 +22,3 @@ def test_kumarijob(page : Page):
             writer.writerow([job,company_name,location,"Negotiable","Not-provided"])
             # print(job, "->", company_name, "->", location)
       
-
-
-        
