@@ -3,8 +3,12 @@ from playwright_stealth import Stealth
 import csv
 import os
 
+# defining the required playwright function
 def test_naukri(page: Page):
+    # Stealth required to work with the website
     Stealth().apply_stealth_sync(page) 
+
+    # Working with the head mode of the playwright 
     page.set_extra_http_headers({
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     })
@@ -12,12 +16,14 @@ def test_naukri(page: Page):
     file_path = r"C:\Users\bimal\OneDrive\Documents\Thing\The project\JobMeasure\src\scrapper\raw_data\naukri_raw.csv"
     file_exists = os.path.exists(file_path)
 
+    # Extracting the data from the website
     with open(file_path,"a",newline="") as file:
         writer = csv.writer(file)
         if not file_exists:
             writer.writerow(["Job_title","Company_name","Required_time_experience","Salary","Job_location","Skill"])
 
         for offset in range(1,501):
+            # try except condition if page gets blocked 
             try:
                 page.goto(f"https://www.naukri.com/jobs-in-india-{offset}?functionAreaIdGid=3&functionAreaIdGid=4&functionAreaIdGid=5&functionAreaIdGid=8&clusters=functionalAreaGid", timeout=60000)
             except:
